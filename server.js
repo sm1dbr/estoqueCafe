@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 
 app.use(cors());
@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Criar conexão com o BD
 
-const pool = mysql.createConnection({
+const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -53,5 +53,5 @@ app.post('/api/entrega', (req, res) => {
 // Inicia o servidor
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

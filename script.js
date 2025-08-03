@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Conectando com o Backend
 
-        fetch('http://localhost:3000/api/entrega', {
+        fetch('https://estoquecafebackend.onrender.com/api/entrega', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
