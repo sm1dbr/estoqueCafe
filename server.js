@@ -10,11 +10,11 @@ app.use(express.json());
 
 // Criar conexão com o BD
 
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'admin',
-    password: 'V4olanbc97@',
-    database: 'estoqueCafe',
+const pool = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
