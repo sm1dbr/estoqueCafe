@@ -19,6 +19,7 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
+console.log('DB_HOST usado:', process.env.DB_HOST);
 
 
 
