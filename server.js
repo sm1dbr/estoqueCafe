@@ -7,7 +7,6 @@ const path = require('path');
 
 // Voltando ao cors pq nem manual deu certo
 
-const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
