@@ -5,10 +5,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const path = require('path');
 
+// poderia ser cors, mas não tá deixando sei lá pq, então vai manual
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Headers", "origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+
+
     next();
 });
 app.use(express.json());
