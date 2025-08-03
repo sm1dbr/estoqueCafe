@@ -3,6 +3,7 @@ const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const path = require('path');
 
 
 app.use((req, res, next) => {
@@ -13,7 +14,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // CONECTAR COM O SQLITE
-const db = new sqlite3.Database('./db/estoqueCafe.bd', (err) => {
+const db = new sqlite3.Database('./db/estoqueCafe.db', (err) => {
     if (err) {
         console.error('Erro ao conectar com o SQLite:', err.message);
     } else {
@@ -51,6 +52,18 @@ app.post('/api/entrega', (req, res) => {
     });
 
 });
+
+// Baixar o banco de dados
+app.get('/download-db', (req, res) => {
+    const file = path.join(__dirname, 'db', 'estoqueCafe.db');
+    res.download(file, 'estoqueCafe.db', (err) => {
+        if (err) {
+            console.error('Erro ao enviar o arquivo:', err);
+            res.status(500).send('Erro ao baixar o banco de dados');
+        }
+    });
+});
+
 
 // Inicia o servidor
 
