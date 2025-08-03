@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <link rel="icon" href="xicara-de-cafe.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registrar Entrega</h2>
+            <form id="estoqueForm">
+
+                <!-- Fornecedor -->
+                <div class="fornecedor">
+                    <select name="fornecedor" required>
+                        <option value="" disabled selected hidden>Quem entregou?</option>
+                        <option value="ale">Alexandre</option>
+                        <option value="ana">Ana Claudia</option>
+                        <option value="bea">Beatriz</option>
+                        <option value="bid">Bidueira</option>
+                        <option value="ces">Cesar</option>
+                        <option value="dam">Damião</option>
+                        <option value="dan">Daniella</option>
+                        <option value="den">Denise</option>
+                        <option value="esp">Espíndola</option>
+                        <option value="eve">Evellin</option>
+                        <option value="est">Esther</option>
+                        <option value="fab">Fabíola</option>
+                        <option value="gle">Gleison</option>
+                        <option value="gui">Guilherme</option>
+                        <option value="jea">Jean</option>
+                        <option value="jon">Jonathan</option>
+                        <option value="jos">Josenilda</option>
+                        <option value="jul">Juliana</option>
+                        <option value="lea">Léa</option>
+                        <option value="mag">Magna</option>
+                        <option value="mac">Márcio</option>
+                        <option value="mar">Maria</option>
+                        <option value="nei">Neilza</option>
+                        <option value="plo">Paulo</option>
+                        <option value="raf">Rafael</option>
+                        <option value="rla">Rafaela</option>
+                        <option value="ren">Renata</option>
+                        <option value="rit">Rita</option>
+                        <option value="ser">Sérgio</option>
+                    </select>
+                </div>
+
+                <!-- Itens -->
+                <div class="itens">
+                    <input type="checkbox" name="item" value="cafe" id="cafe">
+                    <label for="cafe">Café</label>
+
+                    <input type="checkbox" name="item" value="acucar" id="acucar">
+                    <label for="acucar">Açúcar</label>
+
+                    <input type="checkbox" name="item" value="detergente" id="detergente">
+                    <label for="detergente">Detergente</label>
+
+                    <input type="checkbox" name="item" value="esponja" id="esponja">
+                    <label for="esponja">Esponja</label>
+                </div>
+
+                <!-- Adicionais -->
+                <div class="adicionais">
+                    <span>Cada item marcado acima representa automaticamente uma unidade. Caso seja necessário adicionar mais unidades por item, selecione abaixo:</span>
+                    <label>
+                        <input type="checkbox" id="adicional"> Adicionar mais
+                    </label>
+
+                    <div id="extrasContainer" style=display:none; margin-top: 10px;>
+                        <div id="extraFields">Atenção: Para registrar quantidades adicionais, marque o item correspondente acima.</div>
+                        <button type="button" id="addExtraBtn">Adicionar mais</button>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="observacoes">
+                    <textarea name="observacao" placeholder="Observações (opcional)"></textarea>
+                </div>
+
+                <div class="sendBtn">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
