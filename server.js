@@ -1,9 +1,21 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const path = require('path');
+const { google } = require('googleapis');
+const fs = require('fs');
+
+
+const auth = new google.auth.GoogleAuth({
+    credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON),
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
+
+const sheets = google.sheets({ version: 'v4', auth });
+
+const spreadsheetId = '1mAa_ThFgGmjjYuH-QDfxHecZYMEG2DS-LvYPezXTWX4';
+
 
 // Voltando ao cors pq nem manual deu certo
 
@@ -11,55 +23,36 @@ app.use(cors());
 app.use(express.json());
 
 
-// CONECTAR COM O SQLITE
-const db = new sqlite3.Database('./db/estoqueCafe.db', (err) => {
-    if (err) {
-        console.error('Erro ao conectar com o SQLite:', err.message);
-    } else {
-        console.log('Conectado ao banco de dados SQLite!')
-    }
-});
-
 // Rota pra receber os dados do formulário
 
-app.post('/api/entrega', (req, res) => {
+app.post('/api/entrega', async (req, res) => {
     const dadosRecebidos = req.body;
 
     console.log('Dados Recebidos:', dadosRecebidos);
 
-    const sql = 'INSERT INTO entregas (fornecedor, item, quantidade, observacao, dataHora) VALUES (?, ?, ?, ?, ?)';
-    
-    const stmt = db.prepare(sql);
+    const values = dadosRecebidos.itens.map(i => [
+        new Date(dadosRecebidos.dataHora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        dadosRecebidos.fornecedor,
+        i.item,
+        i.quantidade,
+        dadosRecebidos.observacao || ''
+    ]);
 
-    dadosRecebidos.itens.forEach(i => {
-        stmt.run(
-            dadosRecebidos.fornecedor,
-            i.item,
-            i.quantidade,
-            dadosRecebidos.observacao,
-            dadosRecebidos.dataHora
-        );
-    });
+    try {
+        await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range: 'Entregas!A:E',
+            valueInputOption: 'USER_ENTERED',
+            resource: {
+                values
+            },
+        });
+        res.status(200).json({ message: 'Dados enviados ao Google Sheets com sucesso!' });
+    } catch (err) {
+        console.error('Err ao enviar dados ao Google Sheets:', err);
+        res.status(500).json({ error: 'Erro ao salvar no Google Sheets' });
+    }
 
-    stmt.finalize(err => {
-        if (err) {
-            console.error('Erro ao inserir dados:', err.message);
-            return res.status(500).json({ error: 'Erro ao salvar no banco' });
-        } 
-        res.status(200).json({ message: 'Dados recebidos com sucesso!' });
-    });
-
-});
-
-// Baixar o banco de dados
-app.get('/download-db', (req, res) => {
-    const file = path.join(__dirname, 'db', 'estoqueCafe.db');
-    res.download(file, 'estoqueCafe.db', (err) => {
-        if (err) {
-            console.error('Erro ao enviar o arquivo:', err);
-            res.status(500).send('Erro ao baixar o banco de dados');
-        }
-    });
 });
 
 
