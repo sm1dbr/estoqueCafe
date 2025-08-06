@@ -1,8 +1,8 @@
 :root {
-    --primary-color: #6c63ff;
+    --primary-color: #69358C;
     --secondary-color: #f5f5f5;
     --text-color:#333;
-    --success-color: #28a745;
+    --third-color: #220440;
 }
 
 body {
@@ -130,7 +130,7 @@ span {
     width: 100%;
 }
 
-.sendBtn button {
+.btnPrimary button {
     background-color: var(--primary-color);
     color: white;
     font-weight: 700;
@@ -141,4 +141,21 @@ span {
     font-size: 18px;
     width: 100%;
     max-width: 400px;
+}
+
+.acompanhar {
+    background-color: var(--third-color);
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 30%;
+    max-width: 400px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 30px;
 }
